@@ -22,11 +22,6 @@ public class MovieDto {
 
     private String code;
 
-    public MovieDto(String msg, String code) {
-        this.msg = msg;
-        this.code = code;
-    }
-
     public static MovieDto toMovieDto(Movie movie, String msg, String code){
         return MovieDto.builder()
                 .movieId(movie.getMovieId())

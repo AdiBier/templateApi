@@ -5,8 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
 
 @Entity
 @Data
@@ -21,11 +21,9 @@ public class User {
     private Long userId;
 
     @Column(name = "Name")
-    @Min(3)
     private String name;
 
     @Column(name = "Surname")
-    @Min(3)
     private String surname;
 
     @Column(name = "Email", nullable = false, unique = true)
@@ -41,6 +39,9 @@ public class User {
     @Column(name = "Role", nullable = false)
     private String role;
 
+    @OneToMany(mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<Order> order;
+
     public User(String name, String surname, String email, String password, String phone, String role) {
         this.name = name;
         this.surname = surname;
@@ -53,5 +54,15 @@ public class User {
     public User(String name, String surname) {
         this.name = name;
         this.surname = surname;
+    }
+
+    public User(Long userId, String name, String surname, String email, String password, String phone, String role) {
+        this.userId = userId;
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.role = role;
     }
 }

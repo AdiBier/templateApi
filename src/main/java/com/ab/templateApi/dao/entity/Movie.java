@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Data
@@ -26,6 +28,9 @@ public class Movie {
 
     @Column(name = "Duration")
     private Integer duration;
+
+    @OneToMany(mappedBy = "movie", fetch = FetchType.EAGER)
+    private List<Room> room;
 
     public Movie(String name, String category, Integer duration) {
         this.name = name;

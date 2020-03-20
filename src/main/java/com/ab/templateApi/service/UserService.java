@@ -41,7 +41,7 @@ public class UserService {
     }
 
     public User save(User newUser){
-        User user = new User(newUser.getName(), newUser.getSurname(), newUser.getEmail(), newUser.getPassword(), newUser.getPhone(), "CUSTOMER");
+        User user = new User(newUser.getName(), newUser.getSurname(), newUser.getEmail(), newUser.getPassword(), newUser.getPhone(), newUser.getRole());
         return userRepository.save(user);
     }
 

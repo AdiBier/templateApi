@@ -2,7 +2,6 @@ package com.ab.templateApi.api;
 
 import com.ab.templateApi.dao.entity.Movie;
 import com.ab.templateApi.dao.handler.MovieDto;
-import com.ab.templateApi.dao.repository.MovieRepository;
 import com.ab.templateApi.response.ServerResponse;
 import com.ab.templateApi.response.ServerResponseConstants;
 import com.ab.templateApi.service.MovieService;
@@ -60,7 +59,7 @@ public class MovieApi {
 
     @PutMapping
     public Movie updateMovie(@Valid @RequestBody Movie movie){
-        return movieService.save(movie);
+        return movieService.update(movie);
     }
 
     @DeleteMapping

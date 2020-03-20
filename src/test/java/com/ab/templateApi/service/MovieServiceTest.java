@@ -34,7 +34,7 @@ public class MovieServiceTest {
 
     @Before
     public void setUp() {
-        movie = new Movie(MOVIE_ID, "Jobs", "Drama", 129);
+//        movie = new Movie(MOVIE_ID, "Jobs", "Drama", 129);
     }
 
     //findAll BEGINS
