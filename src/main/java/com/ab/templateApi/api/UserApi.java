@@ -21,7 +21,7 @@ import static java.util.stream.Collectors.toList;
 @RequestMapping("/api/users")
 public class UserApi {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public UserApi(UserService userService) {
