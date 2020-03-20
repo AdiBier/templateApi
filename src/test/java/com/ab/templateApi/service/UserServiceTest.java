@@ -64,6 +64,7 @@ public class UserServiceTest {
     }
     //ENDS
 
+    //findUserById BEGINS
     @Test
     public void shouldReturnFindUserById() {
         //given
@@ -81,6 +82,7 @@ public class UserServiceTest {
         assertEquals(foundUserByIdOK.get().getPhone(), user.getPhone());
         assertEquals(foundUserByIdOK.get().getRole(), user.getRole());
     }
+    //ENDS
 
     //findUserByEmail BEGINS
     @Test

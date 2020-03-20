@@ -1,7 +1,6 @@
 package com.ab.templateApi.service;
 
 import com.ab.templateApi.dao.entity.User;
-import com.ab.templateApi.dao.handler.UserDto;
 import com.ab.templateApi.dao.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -14,7 +13,7 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
     @Autowired
     public UserService(UserRepository userRepository) {

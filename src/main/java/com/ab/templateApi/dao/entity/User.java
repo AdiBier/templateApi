@@ -5,6 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Data
@@ -18,10 +20,12 @@ public class User {
     @Column(name = "UserId", nullable = false, unique = true, updatable = false)
     private Long userId;
 
-    @Column(name = "Name", length = 20)
+    @Column(name = "Name")
+    @Min(3)
     private String name;
 
-    @Column(name = "Surname", length = 20)
+    @Column(name = "Surname")
+    @Min(3)
     private String surname;
 
     @Column(name = "Email", nullable = false, unique = true)
@@ -33,6 +37,7 @@ public class User {
     @Column(name = "Phone")
     private String phone;
 
+    @NotEmpty
     @Column(name = "Role", nullable = false)
     private String role;
 
@@ -43,5 +48,10 @@ public class User {
         this.password = password;
         this.phone = phone;
         this.role = role;
+    }
+
+    public User(String name, String surname) {
+        this.name = name;
+        this.surname = surname;
     }
 }

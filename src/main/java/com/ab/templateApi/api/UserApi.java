@@ -21,7 +21,7 @@ import static java.util.stream.Collectors.toList;
 @RequestMapping("/api/users")
 public class UserApi {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public UserApi(UserService userService) {
@@ -60,7 +60,7 @@ public class UserApi {
 
     @DeleteMapping
     public ServerResponse deleteUserById(@RequestParam Long id) {
-        if (userService.findById(id).isPresent()){
+        if (userService.findById(id).isPresent()) {
             userService.delete(id);
             return new ServerResponse(ServerResponseConstants.OK_MSG, ServerResponseConstants.OK_CODE);
         }
