@@ -1,5 +1,7 @@
 package com.ab.templateApi.dao.entity;
 
+import com.ab.templateApi.view.UserView;
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,26 +19,33 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "UserId", nullable = false, unique = true, updatable = false)
+    @Column(name = "User_Id", nullable = false, unique = true, updatable = false)
+    @JsonView(UserView.WithUserId.class)
     private Long userId;
 
-    @Column(name = "Name")
+    @Column(name = "Name", length = 20)
+    @JsonView(UserView.WithoutRelations.class)
     private String name;
 
-    @Column(name = "Surname")
+    @Column(name = "Surname", length = 20)
+    @JsonView(UserView.WithoutRelations.class)
     private String surname;
 
     @Column(name = "Email", nullable = false, unique = true)
+    @JsonView(UserView.WithoutRelations.class)
     private String email;
 
     @Column(name = "Password", nullable = false)
+    @JsonView(UserView.WithPassword.class)
     private String password;
 
-    @Column(name = "Phone")
+    @Column(name = "Phone", unique = true)
+    @JsonView(UserView.WithoutRelations.class)
     private String phone;
 
     @NotEmpty
     @Column(name = "Role", nullable = false)
+    @JsonView(UserView.WithoutRelations.class)
     private String role;
 
     @OneToMany(mappedBy = "user", orphanRemoval = true, fetch = FetchType.LAZY)

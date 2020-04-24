@@ -1,0 +1,27 @@
+UserRestController
+
+1. Pobieranie pełnego użytkownika za pomocą id
+Method: GET
+URL: <address>:<port>/api/users/?id=?
+Return value: User entity or null
+
+2. Pobieranie listy użytkowników bez relacji oraz haseł
+Method: GET
+URL: <address>:<port>/api/users/all
+Return value: User entity or null
+
+3. Skasowanie użytkownika za pomocą id
+Method: GET
+URL: <address>:<port>/api/admin/users/?id=?
+Return value: nothing
+
+4. Pobieranie listy użytkowników z relacjami
+Method: GET
+URL: <address>:<port>/api/users/allDetails
+Return value: User entity or null
+
+5. Pobranie id użytkownika za pomocą emailu
+Method: GET
+URL: <address>:<port>/api/userId/?email=?
+Return value: UserId or null
+

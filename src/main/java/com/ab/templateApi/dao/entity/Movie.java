@@ -3,10 +3,8 @@ package com.ab.templateApi.dao.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.util.List;
-
 
 @Entity
 @Data
@@ -17,7 +15,7 @@ public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "MovieId", nullable = false, unique = true, updatable = false)
+    @Column(name = "Movie_Id", nullable = false, unique = true, updatable = false)
     private Long movieId;
 
     @Column(name = "Name", length = 64)

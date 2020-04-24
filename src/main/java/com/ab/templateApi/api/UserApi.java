@@ -2,68 +2,59 @@ package com.ab.templateApi.api;
 
 import com.ab.templateApi.dao.entity.User;
 import com.ab.templateApi.dao.handler.UserDto;
-import com.ab.templateApi.exception.UserNotFoundException;
-import com.ab.templateApi.response.ServerResponse;
-import com.ab.templateApi.response.ServerResponseConstants;
-import com.ab.templateApi.service.UserService;
+import com.ab.templateApi.service.UserServiceImpl;
+import com.ab.templateApi.view.UserView;
+import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.StreamSupport;
-
-import static java.util.stream.Collectors.toList;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api")
 public class UserApi {
 
-    private final UserService userService;
+    private final UserServiceImpl userServiceImpl;
 
     @Autowired
-    public UserApi(UserService userService) {
-        this.userService = userService;
+    public UserApi(UserServiceImpl userServiceImpl) {
+        this.userServiceImpl = userServiceImpl;
     }
 
-    @GetMapping("/all")
-    public Iterable<UserDto> getAllUsers() {
-        Iterable<User> userIterable = userService.findAll();
-        if (userIterable.iterator().hasNext()) {
-            return StreamSupport.stream(userIterable.spliterator(), false)
-                    .map(users -> {
-                        return new UserDto(users.getUserId(), users.getName(), users.getSurname(), users.getEmail(), users.getPassword(), users.getPhone(), users.getRole(),
-                                ServerResponseConstants.OK_MSG, ServerResponseConstants.OK_CODE);
-                    }).collect(toList());
+    @JsonView(UserView.UserDto.class)
+    @GetMapping("/users/all")
+    public ResponseEntity<List<UserDto>> getAllUsersWithoutRelations() {
+        return new ResponseEntity<>(userServiceImpl.findAllUsersDto(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/admin/users")
+    public ResponseEntity<User> deleteUserById(@RequestParam(name = "id") final long id) {
+        final User user = userServiceImpl.findUserById(id);
+        if (user != null) {
+            userServiceImpl.deleteById(id);
         }
-        List<UserDto> userDtoList = new ArrayList<>();
-        userDtoList.add(new UserDto(null, null, null, null, null, null, null, ServerResponseConstants.TAE1001_MSG, ServerResponseConstants.TAE1001_CODE));
-        return userDtoList;
+        return new ResponseEntity<>(user == null ? HttpStatus.NOT_FOUND : HttpStatus.NO_CONTENT);
     }
 
-    @GetMapping
-    public Optional<User> getById(@RequestParam Long id) {
-        return Optional.ofNullable(userService.findById(id).orElseThrow(() -> new UserNotFoundException(id)));
+    @JsonView(UserView.WithRelations.class)
+    @GetMapping("/users/allDetails")
+    public ResponseEntity<List<User>> getAllUsersWithRelations() {
+        return new ResponseEntity<>(userServiceImpl.findAllUsersList(), HttpStatus.OK);
     }
 
-    @PostMapping
-    public User addUser(@Valid @RequestBody User user) {
-        return userService.save(user);
+    @JsonView(UserView.WithRelations.class)
+    @GetMapping("/users")
+    public ResponseEntity<User> getUserById(@RequestParam(name = "id") final long id) {
+        final User user = userServiceImpl.findUserById(id);
+        return new ResponseEntity<>(user, user == null ? HttpStatus.NOT_FOUND : HttpStatus.OK);
     }
 
-    @PutMapping
-    public User update(@RequestBody User user) {
-        return userService.update(user);
-    }
-
-    @DeleteMapping
-    public ServerResponse deleteUserById(@RequestParam Long id) {
-        if (userService.findById(id).isPresent()) {
-            userService.delete(id);
-            return new ServerResponse(ServerResponseConstants.OK_MSG, ServerResponseConstants.OK_CODE);
-        }
-        return new ServerResponse(ServerResponseConstants.TAE1001_MSG, ServerResponseConstants.TAE1001_CODE);
+    @JsonView(UserView.WithUserId.class)
+    @GetMapping("/userId")
+    public ResponseEntity<User> getUserIdByEmail(@RequestParam(name = "email") final String email) {
+        final User user = userServiceImpl.findUserIdByEmail(email);
+        return new ResponseEntity<>(user, user == null ? HttpStatus.NOT_FOUND : HttpStatus.OK);
     }
 }
